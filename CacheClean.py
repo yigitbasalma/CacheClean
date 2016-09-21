@@ -94,6 +94,8 @@ def caller(cache_path, m_size, mn_size):
 	a.FoundAndCollect()
 
 def main():
+	with open("pid", "w") as pid:
+                pid.write(str(os.getpid()))
 	while True:
 		config = ConfigParser.ConfigParser()
 		config.read(os.path.join(os.getcwd(), "config.cfg"))
