@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# chkconfig: - 85 15
+. /etc/rc.d/init.d/functions
+
+prog="Cache Clean"
+schome="/root/cacheClean"
+RETVAL=0
+
+start() {
+        echo -n $"Starting $prog: "
+        if [ -e "$schome/pid" ];then
+                rm -rf $schome/pid
+                /usr/bin/python $schome/CacheClean.py > /dev/null 2>&1 &
+                RETVAL=$?
+                echo
+                [ $RETVAL = 0 ] && echo -e "CacheClean                     [\e[92mSTARTED\e[0m]" || echo -e "CacheClean                        [\e[91mFAILED\e[0m]"
+                return $RETVAL
+        else
+                nohup /usr/bin/python $schome/CacheClean.py > /dev/null 2>&1 &
+                RETVAL=$?
+                echo
+                [ $RETVAL = 0 ] && echo -e "CacheClean                     [\e[92mSTARTED\e[0m]" || echo -e "CacheClean                        [\e[91mFAILED\e[0m]"
+                return $RETVAL
+        fi
+}
+
+stop() {
+        echo -n "Stopping $prog: "
+        if [ -e "$schome/pid" ];then
+                kill -9 $(cat $schome/pid)
+                RETVAL=$?
+                echo
+                [ $RETVAL = 0 ] && rm -rf $schome/pid;  echo -e "CacheClean Stop                     [\e[92mOK\e[0m]" || echo -e "CacheClean Stop                        [\e[91mFAILED\e[0m]"
+        else
+                echo -n "CacheClean not working..."
+                echo
+        fi
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        ps -ef | grep $(cat $schome/pid) | grep -v grep 2>&1 > /dev/null
+        RETVAL=$?
+        if [ $RETVAL -eq 0 ];then
+                echo -e "CacheClean                     [\e[92mOK\e[0m]"
+        else
+                echo -e "CacheClean                        [\e[91mWARN\e[0m]"
+        fi
+        ;;
+  restart)
+        stop
+        start
+        ;;
+  *)
+        echo $"Usage: $prog {start|stop|restart|status}"
+        RETVAL=2
+esac
+
+exit $RETVAL
