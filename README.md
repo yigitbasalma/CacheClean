@@ -11,6 +11,8 @@ Script, cache level 2 olan her yerde kullanılabilir.Burdan kasıt; cache dosyal
 
 Scripti chkconfig ile kullanmak veya kolayca başlatıp sonlandırmak için "cacheclean" dosyasını, /etc/init.d altına atarak aşağıdaki komutu çalıştırmanız yeterli.Artık sunucunuz açılırken script servis olarak başlayacaktır.
 
+NOT: Kullanmadan önce script içindeki "schome" değişkenine, scriptin bulunduğu yolu yazmayı unutmayın.
+
 ```
 chkconfig cacheclean on
 ```
