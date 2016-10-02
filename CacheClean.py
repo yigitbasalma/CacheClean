@@ -99,7 +99,7 @@ def main():
 	while True:
 		config = ConfigParser.ConfigParser()
 		config.read(os.path.join(os.getcwd(), "config.cfg"))
-		cache_path, m_size, mn_size = config.get("env","cahce_path"), config.get("env","max_size"), config.get("env","min_size")
+		cache_path, m_size, mn_size = config.get("env","cahce_path"), int(config.get("env","max_size")), int(config.get("env","min_size"))
 		p = Process(target=caller, args=(cache_path, m_size, mn_size, ))
 		p.start()
 		p.join()
