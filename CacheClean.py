@@ -11,7 +11,6 @@ import LogMaster
 import datetime
 import Queue
 import ConfigParser
-import copy
 
 from threading import Thread, Event, Lock
 from multiprocessing import Process
