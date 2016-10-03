@@ -28,7 +28,7 @@ start() {
 stop() {
         echo -n "Stopping $prog: "
         if [ -e "$schome/pid" ];then
-                kill -9 $(cat $schome/pid)
+                kill -9 $(cat $schome/pid | tr "\n" " ")
                 RETVAL=$?
                 echo
                 [ $RETVAL = 0 ] && rm -rf $schome/pid;  echo -e "CacheClean Stop                     [\e[92mOK\e[0m]" || echo -e "CacheClean Stop                        [\e[91mFAILED\e[0m]"

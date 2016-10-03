@@ -9,11 +9,12 @@ class Logger(object):
 		config = ConfigParser.ConfigParser()
 		config.read(os.path.join(os.getcwd(), "config.cfg"))
 		self.path = config.get("log","path")
+		self.file_name = config.get("log","file_name")
 		try:
 			os.listdir(self.path)
 		except OSError:
 			os.mkdir(self.path,0755)
-		self.path = "{0}cacheClean.txt".format(self.path)
+		self.path = "{0}/{1}.txt".format(self.path, self.file_name)
 
 	def LogSave(self,scname,level,msg):
 		self.timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
